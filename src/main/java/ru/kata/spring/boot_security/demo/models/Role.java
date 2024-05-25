@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
@@ -71,6 +72,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return getName().replace("ROLE_","");
+        return getName().replace("ROLE_", "");
     }
 }
