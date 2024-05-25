@@ -8,6 +8,8 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
+import java.security.Principal;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -22,33 +24,23 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public String getAllUsers(Model model) {
+    public String getAllUsers(Model model, Principal principal) {
+        User user = userService.getUserByUsername(principal.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("emptyUser", new User());
         model.addAttribute("users", userService.getAllUsers());
-        return "all-users";
-    }
-
-    @GetMapping("/add")
-    public String addUser(Model model) {
-        model.addAttribute("user", new User());
         model.addAttribute("roles", roleService.getAllRoles());
-        return "add-user";
+        return "admin";
     }
 
     @PostMapping("/add")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String saveUser(@ModelAttribute("emptyUser") User user) {
         userService.saveUser(user);
         return "redirect:/admin/users";
     }
 
-    @GetMapping("/edit")
-    public String edit(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("roles", roleService.getAllRoles());
-        model.addAttribute("user", userService.getUserById(id));
-        return "edit";
-    }
-
     @PatchMapping("/edit")
-    public String editUser(@RequestParam("id") Long id, @ModelAttribute("user") User user) {
+    public String editUser(@RequestParam(value = "id") Long id, @ModelAttribute("user") User user) {
         userService.editUser(id, user);
         return "redirect:/admin/users";
     }
