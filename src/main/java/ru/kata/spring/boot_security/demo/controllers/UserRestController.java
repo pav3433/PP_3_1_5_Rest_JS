@@ -10,7 +10,7 @@ import ru.kata.spring.boot_security.demo.services.UserService;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserRestController {
     private final UserService userService;
 
@@ -19,7 +19,7 @@ public class UserRestController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
+    @GetMapping()
     public User showUserData(Principal principal) {
         return userService.getUserByUsername(principal.getName());
     }
