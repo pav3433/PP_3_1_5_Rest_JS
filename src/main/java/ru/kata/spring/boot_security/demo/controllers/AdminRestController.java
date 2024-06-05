@@ -39,7 +39,7 @@ public class AdminRestController {
 
     @GetMapping("/roles")
     public List<Role> getAllRoles() {
-        return roleService.getAllRoles().stream().toList();
+        return roleService.getAllRoles();
     }
 
     @PatchMapping("/edit/{id}")
